@@ -13,7 +13,10 @@ except ImportError:
         FieldPanel, FieldRowPanel, InlinePanel, MultiFieldPanel,
         PageChooserPanel, ObjectList, TabbedInterface
     )
-
+try:
+    from wagtail.models import Page
+except ImportError:
+    from wagtail.core.models import Page
 
 # ########################################################
 # For menu models
@@ -99,7 +102,7 @@ linkpage_edit_handler = TabbedInterface([linkpage_tab])
 
 
 # ########################################################
-# For MenuPageMixin
+# For MenuPageMixin and MenuPage
 # ########################################################
 
 menupage_panel = MultiFieldPanel(
@@ -111,10 +114,4 @@ menupage_panel = MultiFieldPanel(
     )
 )
 
-menupage_settings_panels = [
-    menupage_panel,
-]
-
-menupage_settings_tab = ObjectList(
-    menupage_settings_panels, heading=_("Settings"), classname="settings"
-)
+menupage_settings_panels = Page.settings_panels + [menupage_panel]
